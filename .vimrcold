@@ -1,6 +1,0 @@
-set number
-syntax enable
-set background=dark
-colorscheme solarized
-set autoindent
-set mouse=r
