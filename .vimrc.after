@@ -5,7 +5,7 @@ map tp :tabp<kEnter>
 map tn :tabn<kEnter>
 map nt :NERDTree<kEnter>
 map diff :Gdiff<kEnter>
-map aa :NumbersToggle<kEnter>
+map aa :call NumbersToggle()<kEnter>
 map cc <leader>cc
 map cu <leader>cu
 map blame :Gblame<kEnter>
@@ -20,6 +20,13 @@ set noswapfile
 set shortmess+=A
 set noautochdir
 set relativenumber
+function! NumbersToggle()
+  if(&relativenumber == 1)
+    set number
+  else
+    set relativenumber
+  endif
+endfunc
 
 function! RunSpec(args)
   if exists("b:rails_root") && filereadable(b:rails_root . "/script/spec")
