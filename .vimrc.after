@@ -19,6 +19,7 @@ map mw :call MarkWindowSwap()<CR>
 set noswapfile
 set shortmess+=A
 set noautochdir
+set relativenumber
 
 function! RunSpec(args)
   if exists("b:rails_root") && filereadable(b:rails_root . "/script/spec")
@@ -48,3 +49,4 @@ function! DoWindowSwap()
   "Hide and open so that we aren't prompted and keep history
   exe 'hide buf' markedBuf 
 endfunction
+color desert
