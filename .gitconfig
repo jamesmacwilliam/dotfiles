@@ -1,0 +1,8 @@
+[user]
+	name = James Mac William
+	email = jimmy.macwilliam@gmail.com
+[core]
+	editor = /usr/bin/vim
+	excludesfile = ~/.gitignore
+[push]
+  default = current
