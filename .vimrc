@@ -8,6 +8,10 @@ call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
 
+"line numbers
+set nu!
+
+"easily clear swap
 set swapfile
 set dir=~/tmp
 
@@ -25,7 +29,7 @@ Plugin 'gabebw/vim-spec-runner'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
-"Plugin 'scrooloose/syntastic'
+Plugin 'scrooloose/syntastic'
 Plugin 'sheerun/vim-polyglot'
 Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
@@ -36,6 +40,7 @@ Plugin 'tpope/vim-endwise'
 Plugin 'docunext/closetag.vim'
 Plugin 'tpope/vim-sleuth'
 Plugin 'w0rp/ale'
+Plugin 'ervandew/supertab'
 
 Plugin 'puppetlabs/puppet-syntax-vim'
 Plugin 'hashivim/vim-terraform'
@@ -82,16 +87,28 @@ map diff :Gdiff<kEnter>
 map cc <leader>cc
 map cu <leader>cu
 
+"""""""""""""""""""""""""""""""""""""""nav
+nmap <silent> <c-k> :wincmd k<CR>
+nmap <silent> <c-j> :wincmd j<CR>
+nmap <silent> <c-h> :wincmd h<CR>
+nmap <silent> <c-l> :wincmd l<CR>
+
 """""""""""""""""""""""""""""""""""""""tmux
-nmap <Leader>o :VtrOpenRunner<CR>
-nmap <Leader>s :VtrSendLinesToRunner<CR>
-nmap <Leader>c :VtrKillRunner<CR>
-nmap cl :VtrClearRunner<CR>
+let g:VtrUseVtrMaps = 1
+nmap <leader>pry :VtrOpenRunner {'cmd': 'bundle\ exec\ spring\ rails\ c'}<CR>
+
+"""""""""""""""""""""""""""""""""""""rails
+
+map ev :Eview<CR>
+map ec :Econtroller<CR>
+map em :Emodel<CR>
+map af :A<CR>
 
 """""""""""""""""""""""""""""""""""""specs
 
 map <Leader>f <Plug>RunCurrentSpecFile
-map <Leader>l <Plug>RunFocusedSpec
+map <Leader>ff <Plug>RunFocusedSpec
+" run specs in vim-tmux-runner
 let g:spec_runner_dispatcher = 'call VtrSendCommand("{command}")'
 
 """""""""""""""""""""""""""""""""""""""color
