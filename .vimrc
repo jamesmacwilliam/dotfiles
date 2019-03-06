@@ -3,6 +3,7 @@ filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=/home/linuxbrew/.linuxbrew/opt/fzf
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
@@ -114,8 +115,17 @@ nmap <Leader>x :cclose<CR>
 
 """""""""""""""""""""""""""""""""""""""""ale configs
 let g:ale_fixers = {
+  \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+  \ 'ruby': ['rubocop'],
   \ 'javascript': ['eslint'],
-  \ 'vue': ['eslint']
+  \ 'vue': ['eslint'],
+  \ 'sass': ['sass-lint'],
+  \ 'scss': ['scss-lint', 'prettier'],
+  \ 'css': ['csslint', 'prettier']
+  \ }
+
+let g:ale_linters = {
+  \ 'ruby': ['brakeman']
   \ }
 
 map <Leader>af :ALEFix<cr>
