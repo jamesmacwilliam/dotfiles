@@ -58,6 +58,7 @@ map tn :tabn<kEnter>
 
 " indentation
 autocmd FileType ruby set shiftwidth=2
+autocmd FileType python set shiftwidth=2
 autocmd FileType js set shiftwidth=2
 autocmd FileType vue set shiftwidth=2
 autocmd FileType pug set shiftwidth=2
@@ -94,6 +95,7 @@ nmap <silent> <c-h> :wincmd h<CR>
 nmap <silent> <c-l> :wincmd l<CR>
 
 """""""""""""""""""""""""""""""""""""""tmux
+"remap \or
 let g:VtrUseVtrMaps = 1
 nmap <leader>pry :VtrOpenRunner {'cmd': 'bundle\ exec\ spring\ rails\ c'}<CR>
 
