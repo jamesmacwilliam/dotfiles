@@ -4,3 +4,7 @@ public/packs
 node_modules/*
 bower_components/*
 *.swp
+
+# local-only / secrets
+.zsh_credentials
+.zshrc.local

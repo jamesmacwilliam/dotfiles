@@ -1,0 +1,52 @@
+# aws (granted `assume`) - export creds for a profile into the current shell
+assumeenv() {
+  local profile="$1"
+  local creds
+  creds=$(assume "$profile" --exec bash -c 'env' 2>/dev/null | grep ^AWS_)
+  if [ -z "$creds" ]; then
+    echo "❌ Failed to get credentials. This likely triggered a browser login or failed silently."
+    return 1
+  fi
+  eval "$(echo "$creds" | sed -E 's/^(.*)=/(export \1=\\"/;s/$/\\")/')"
+  export AWS_PROFILE="$profile"
+  echo "✅ Environment variables for '$profile' are now set."
+}
+# required by awsume
+alias awsume=". awsume"
+
+alias python=python3
+alias vim="nvim"
+alias src="source ~/.zshrc"
+alias cc="clear"
+
+# docker
+alias dev="docker compose -f docker-compose.local.yml"
+alias devr="docker compose -f docker-compose.local.yml exec web"
+alias devbe="docker compose -f docker-compose.local.yml exec web bundle exec"
+alias db="docker compose -f docker-compose.local.yml exec -T db"
+
+# git
+alias gd="git diff -M --stat --summary"
+alias gs="git status"
+alias vgu='vim $(git ls-files --unmerged | cut -f2 | sort -u)' # edit unmerged (git conflicts)
+alias gpf='git push --force-with-lease'
+alias ggp='ggpush'
+alias gprune='git branch --merged | grep -v \* | xargs git branch -D'
+alias rprune='git branch -r --merged | grep -v ".*main" | cut -d '/' -f2 | xargs -I {} git push origin :{}'
+
+# ruby / rails
+alias be="bundle exec"
+alias bes="bundle exec spring"
+alias ber="bundle exec spring rspec"
+alias bec="bundle exec spring cucumber"
+alias rcop="git diff origin/master --name-only | xargs ls -1 2>/dev/null | xargs rubocop --force-exclusion -a"
+alias reseed='rails db:drop db:create db:migrate db:seed'
+alias erd='dot -Tpdf erd.dot -o erd.pdf'
+
+# openssl local CA
+alias genkey="openssl genrsa -out myCA.key 4096"
+alias genpem="openssl req -x509 -new -nodes -key myCA.key -sha256 -days 1825 -out myCA.pem"
+
+# disk
+alias tspace='df -h /'
+alias space='ls | xargs du -hs'
