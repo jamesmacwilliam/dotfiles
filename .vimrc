@@ -1,58 +1,19 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-set rtp+=/home/linuxbrew/.linuxbrew/opt/fzf
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
 "line numbers
 set nu!
 
-"easily clear swap
+"easily clear swap (install.sh creates ~/tmp)
 set swapfile
 set dir=~/tmp
 
-""""""""""""""""""""""" Plugins
-Plugin 'VundleVim/Vundle.vim'
+" plugins are managed by packer in ~/.config/nvim/init.lua
 
-set rtp+=/usr/local/bin/fzf
-Plugin 'junegunn/fzf'
-Plugin 'junegunn/fzf.vim'
-Plugin 'mileszs/ack.vim'
-Plugin 'nanotech/jellybeans.vim'
-Plugin 'tpope/vim-rails'
-Plugin 'christoomey/vim-tmux-runner'
-Plugin 'gabebw/vim-spec-runner'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'tpope/vim-fugitive'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'scrooloose/syntastic'
-Plugin 'sheerun/vim-polyglot'
-Plugin 'bling/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-endwise'
-Plugin 'docunext/closetag.vim'
-Plugin 'tpope/vim-sleuth'
-Plugin 'w0rp/ale'
-Plugin 'ervandew/supertab'
-
-Plugin 'puppetlabs/puppet-syntax-vim'
-Plugin 'hashivim/vim-terraform'
-
-Plugin 'posva/vim-vue'
-
-""""""""""""""""""""""""""""boiler plate
-call vundle#end()
 filetype plugin indent on
 
+
 """""""""""""""""""""""""""""""""""""""general
-nmap <Leader>b :PluginInstall<CR>
 map tp :tabp<kEnter>
 map tn :tabn<kEnter>
 
@@ -60,8 +21,12 @@ map tn :tabn<kEnter>
 autocmd FileType ruby set shiftwidth=2
 autocmd FileType python set shiftwidth=2
 autocmd FileType js set shiftwidth=2
+autocmd FileType ts set shiftwidth=2
 autocmd FileType vue set shiftwidth=2
 autocmd FileType pug set shiftwidth=2
+
+" syntax highlighting
+autocmd BufRead,BufNewFile *.erb set filetype=eruby.html
 
 " other
 " autoread
@@ -81,8 +46,8 @@ set shiftwidth=2
 ""need to set up actual syntastic checkers for ruby
 
 """""""""""""""""""""""""""""""""""""""fugitive (git + other git)
-map blame :Gblame<kEnter>
-map diff :Gdiff<kEnter>
+map blame :Git blame<kEnter>
+map diff :Gdiffsplit<kEnter>
 
 """"""""""""""""""""""""""""""""""""""nerd commenter
 map cc <leader>cc
@@ -97,7 +62,10 @@ nmap <silent> <c-l> :wincmd l<CR>
 """""""""""""""""""""""""""""""""""""""tmux
 "remap \or
 let g:VtrUseVtrMaps = 1
-nmap <leader>pry :VtrOpenRunner {'cmd': 'bundle\ exec\ spring\ rails\ c'}<CR>
+nmap <leader>pry :VtrOpenRunner {'cmd': 'bundle\ exec\ rails\ c'}<CR>
+nmap <leader>s :VtrSendLinesToRunner<CR>
+nmap <leader>o :VtrOpenRunner<CR>
+nmap <leader>send :VtrSendLinesToRunner<CR>
 
 """""""""""""""""""""""""""""""""""""rails
 
@@ -108,20 +76,15 @@ map af :A<CR>
 
 """""""""""""""""""""""""""""""""""""specs
 
-map <Leader>f <Plug>RunCurrentSpecFile
-map <Leader>ff <Plug>RunFocusedSpec
+nmap <Leader>f :TestFile<CR>
+nmap <Leader>ff :TestNearest<CR>
 " run specs in vim-tmux-runner
 let g:spec_runner_dispatcher = 'call VtrSendCommand("{command}")'
 
-"""""""""""""""""""""""""""""""""""""""color
-set t_Co=256
-colorscheme jellybeans
-set background=dark
-syntax on
 """"""""""""""""""""""""""""""""""""""" fzf setup
 nmap ; :Buffers<CR>
 nmap <Leader>t :Tags<CR>
-nmap <C-p> :Files<CR>
+nmap <C-p> :GFiles<CR>
 command! -bang -nargs=* Ag
   \ call fzf#vim#ag(<q-args>,
   \                 <bang>0 ? fzf#vim#with_preview('up:60%')
@@ -148,3 +111,17 @@ let g:ale_linters = {
   \ }
 
 map <Leader>af :ALEFix<cr>
+
+"""""""""""""""""""""""""""""""""""""""color
+set t_Co=256
+syntax on
+highlight Normal ctermbg=195
+"""""""""light
+silent! colorscheme solarized
+set background=light
+"colorscheme default
+"set bg to light cyan1
+"https://vim.fandom.com/wiki/Xterm256_color_names_for_console_Vim
+"""""""""dark
+silent! colorscheme jellybeans
+set background=dark
